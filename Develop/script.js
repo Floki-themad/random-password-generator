@@ -1,52 +1,76 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-function generatePassword(){
-  // return prompt ("Password Length" )
-  var passwordLength = prompt("Password Length")
-  var confirmSpecialCharacters = confirm("Do you want special characters?")
-  var upperCase = confirm("Do you want upper case characters?")
-  var lowerCase = confirm("Do you want lower case characters?")
-  var numbers = confirm("do you want numbers in the password?")
- console.log(passwordLength)
- console.log(specialCharacters)
-  var specialCharacters =  [
-  '@',
-  '%',
-  '+',
-  '\\',
-  '/',
-  "'",
-  '!',
-  '#',
-  '$',
-  '^',
-  '?',
-  ':',
-  ',',
-  ')',
-  '(',
-  '}',
-  '{',
-  ']',
-  '[',
-  '~',
-  '-',
-  '_',
-  '.',
-];
-  //we want to prompt the user with the "prompt" method. 
-  // prompt user for there desired characters and length  in the password. 
-}
+// Create variables for accepted characters
+var accSpecChar = ["!" ,"#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", ":", ";", " < ", "=", " > ", " ? ", "@", "[", "\|",  "]", "^",  "_", "{ ", "|", "}", "~"];
+var accLowerCase = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+var accUpperCase = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+var accNumbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+
+var password = [];
+var pwItems = [];
+let userSpec 
+let userLower
+let userUpper
+let userNumber
+let accLength 
+
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
-
-  passwordText.value = password;
-
+    userLength();
+    var password = generatePassword();
+    var passwordText = document.querySelector("#password");
+    passwordText.value = password;
 }
 
-// Add event listener to generate button
+
+var userLength = function () {
+    accLength = parseInt(prompt('How many characters long would you like your password to be?', 8));
+    if (accLength < 8) {
+        alert("Please choose more characters.");
+        userLength();
+    }
+    else if (accLength > 128) {
+        alert("Please choose less characters.");
+        userLength();
+    }
+    else {
+        followUp();
+    }
+    return;
+}  
+
+
+// Ask user for input
+var followUp = function () {
+    userSpec = confirm("Would you like to include special character?");
+    userLower = confirm("Would you like to include lowercase letters?");
+    userUpper = confirm("Would you like to include uppercase letters?");
+    userNumber = confirm("Would you like to include numbers?");
+    if (userSpec) {
+        pwItems = pwItems.concat(accSpecChar);
+    }
+    if (userLower) {
+        pwItems = pwItems.concat(accLowerCase);
+    }
+    if (userUpper) {
+        pwItems = pwItems.concat(accUpperCase);
+    }
+    if (userNumber) {
+        pwItems = pwItems.concat(accNumbers);
+    }
+}
+
+// Using Math.random to select random characters
+var generatePassword = function () {
+    for (let i = 0; i<accLength; i++) {
+        var randomIndex = Math.floor(Math.random()*pwItems.length)
+        var randomChar = pwItems[randomIndex]; 
+        password.push(randomChar);
+    }
+    return password.join("");
+}
+
+//  Event Listener to generate button
 generateBtn.addEventListener("click", writePassword);
