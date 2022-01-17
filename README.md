@@ -16,4 +16,4 @@
 * Created README file with link & screenshot
 
 [Live Website](https://floki-themad.github.io/random-password-generator/)
-![screenshot](https://imgur.com/tDdnsxG)
+![screenshot](images/randompassword.png)
